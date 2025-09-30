@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MealMate</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="container">
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1 class="hero-title">MealMate</h1>
+        <p class="hero-subtitle">Plan your meal and rediscover your appetite</p>
+    </header>
+
+    <!-- Suggestion -->
+    <section class="card">
+        <h2>TasteBuddy’s suggestion</h2>
+        <p class="suggestion">Today’s favorite might be: <strong>{{ suggestion }}</strong></p>
+    </section>
+
+    <!-- Form -->
+    <section class="card">
+    <h2>Add a new dish</h2>
+    <form method="post" class="form-grid">
+        {% csrf_token %}
+
+        <div>
+            <label class="label" for="id_meal_name">Meal</label>
+            {{ form.meal_name }}
+        </div>
+
+        <div>
+            <label class="label" for="id_category">Category</label>
+            {{ form.category }}
+        </div>
+
+        <div>
+            <label class="label" for="id_date">Date</label>
+            {{ form.date }}
+        </div>
+
+        <div class="row">
+            <button type="submit">Add dish</button>
+            <button type="reset" class="secondary">Reset</button>
+        </div>
+    </form>
+</section>
+
+
+    <!-- History -->
+    <section class="card">
+        <h2>History of meals</h2>
+        {% if meals %}
+            <ul class="list">
+                {% for meal in meals %}
+                    <li>
+                        <span class="badge">{{ meal.date }}</span>
+                        <strong>{{ meal.meal_name }}</strong>
+                        <span class="tag">{{ meal.category }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No meals recorded yet. Start by adding your first one above!</p>
+        {% endif %}
+    </section>
+
+</div>
+</body>
+</html>
